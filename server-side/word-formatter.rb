@@ -6,23 +6,18 @@ def parse_text_file(file_name)
   text
 end
 
-def format_text(text_block)
+def format_text(text_block, char_limit = 80)
   paragraphs = text_block.split("\n\n")
 
-  paragraphs.each do |paragraph|
-    all_words = paragraph.split
-
-    all_words.each do |word|
-      line = word += word
-    end
-
+  formatted_paragraphs = paragraphs.map do |paragraph|
+    # gather all words in one string
+    all_words = paragraph.gsub(/\n/, ' ')
+    # break text (on word end) at char_limit characters, and continue on with gsub
+    all_words.gsub(/(.{1,#{char_limit}})(\s+|$)/, "\\1\n").strip
   end
 
-  # break text on word ebd at 80 (or fewer) characters
-
-  # concat lines to build new paragraph
-
-  # return all paragraphs
+  # return all paragraphs with a new line between
+  print formatted_paragraphs.join("\n")
 end
 
 text_block = parse_text_file('word_wrap .txt')
